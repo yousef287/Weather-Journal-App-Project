@@ -1,7 +1,7 @@
 /* Global Variables */
 //Needed for the fetch data and urls
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?';
-const apiKey = '&appid=c9a9ab3a10bdd9e5940cee3846c8ffe3'; //i prefer process.env.API_KEY for security
+const apiKey = '&appid=c9a9ab3a10bdd9e5940cee3846c8ffe3&units=imperial'; //i prefer process.env.API_KEY for security
 const zip = document.querySelector('#zip');
 const userResponse = document.querySelector('#feelings');
 const generateBtn = document.querySelector('#generate');
@@ -12,7 +12,7 @@ const date = document.querySelector('#date');
 const content = document.querySelector('#content');
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
+let newDate = d.getMonth() + 1 + '.' + d.getDate() + '.' + d.getFullYear();
 
 generateBtn.addEventListener('click', function () {
   if(zip.value && userResponse.value)
@@ -88,7 +88,8 @@ async function addData(dataObj) {
 //====================Update Ui================================
 function updateUi(generatedData) {
   date.innerHTML = 'Date: ' + generatedData.date;
-  temp.innerHTML = 'Temperature: ' + generatedData.temp;
+  //if temp is undefiend then the zip code entered is wrong
+  temp.innerHTML = generatedData.temp ? 'Temperature: ' + generatedData.temp + ' Fahrenheit' : 'Please provide a valid Zip';
   content.innerHTML = 'Feelings: ' + generatedData.userResponse;
 }
 //====================================================
